@@ -9,7 +9,7 @@
 + 客户端：uni-app+VUE
 + 计算机视觉：Python+YOLO
 
-### 预览
+### 预览：
 <div align="center">
 <img src="https://github.com/Starix610/people-counting/raw/master/readme_images/index.png" alt="image" width="280px">
 <img src="https://github.com/Starix610/people-counting/raw/master/readme_images/history.png" alt="image" width="280px">
