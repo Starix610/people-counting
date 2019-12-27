@@ -10,8 +10,10 @@
 + 计算机视觉：Python+YOLO
 
 ### 预览
+<div align="center">
 <img src="https://github.com/Starix610/people-counting/raw/master/readme_images/index.png" alt="image" style="width: 300px;">
-<img src="https://github.com/Starix610/people-counting/raw/master/readme_images/history.png" alt="image" style="max-width:100%;width: 300px;">
-<img src="https://github.com/Starix610/people-counting/raw/master/readme_images/me.png" alt="image" style="max-width:100%;width: 300px;">
-<img src="https://github.com/Starix610/people-counting/raw/master/readme_images/index2.png" alt="image" style="max-width:100%;width: 300px;">
-<img src="https://github.com/Starix610/people-counting/raw/master/readme_images/me2.png" alt="image" style="max-width:100%;width: 300px;">
+<img src="https://github.com/Starix610/people-counting/raw/master/readme_images/history.png" alt="image" style="width: 300px;">
+<img src="https://github.com/Starix610/people-counting/raw/master/readme_images/me.png" alt="image" style="width: 300px;">
+<img src="https://github.com/Starix610/people-counting/raw/master/readme_images/index2.png" alt="image" style="width: 300px;">
+<img src="https://github.com/Starix610/people-counting/raw/master/readme_images/me2.png" alt="image" style="width: 300px;">
+</div
