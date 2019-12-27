@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weiyun.peoplecounting.mapper.CourseMapper">
+  <resultMap id="BaseResultMap" type="com.weiyun.peoplecounting.pojo.Course">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+    <result column="credits" jdbcType="DOUBLE" property="credits" />
+    <result column="period" jdbcType="INTEGER" property="period" />
+    <result column="exam_ways" jdbcType="VARCHAR" property="examWays" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from course
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.weiyun.peoplecounting.pojo.Course">
+    insert into course (id, course_name, credits, 
+      period, exam_ways)
+    values (#{id,jdbcType=INTEGER}, #{courseName,jdbcType=VARCHAR}, #{credits,jdbcType=DOUBLE}, 
+      #{period,jdbcType=INTEGER}, #{examWays,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.weiyun.peoplecounting.pojo.Course">
+    update course
+    set course_name = #{courseName,jdbcType=VARCHAR},
+      credits = #{credits,jdbcType=DOUBLE},
+      period = #{period,jdbcType=INTEGER},
+      exam_ways = #{examWays,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, course_name, credits, period, exam_ways
+    from course
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, course_name, credits, period, exam_ways
+    from course
+  </select>
+
+  <select id="selectForCourseByTeacherId" resultMap="BaseResultMap">
+    select * from course where id in (select course_id from teach where teacher_id = #{teacherId})
+  </select>
+</mapper>

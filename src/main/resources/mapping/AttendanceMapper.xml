@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weiyun.peoplecounting.mapper.AttendanceMapper">
+  <resultMap id="BaseResultMap" type="com.weiyun.peoplecounting.pojo.Attendance">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="teach_detail_id" jdbcType="VARCHAR" property="teachDetailId" />
+    <result column="classroom" jdbcType="VARCHAR" property="classroom" />
+    <result column="attendance_num" jdbcType="INTEGER" property="attendanceNum" />
+    <result column="total_number" jdbcType="INTEGER" property="totalNumber" />
+    <result column="attendance_rate" jdbcType="DOUBLE" property="attendanceRate" />
+    <result column="record_time" jdbcType="TIMESTAMP" property="recordTime" />
+    <result column="original_image" jdbcType="VARCHAR" property="originalImage" />
+    <result column="detection_image" jdbcType="VARCHAR" property="detectionImage" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from attendance
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.weiyun.peoplecounting.pojo.Attendance">
+    insert into attendance (id, teach_detail_id, classroom,
+      attendance_num, total_number, attendance_rate, 
+      record_time, original_image, detection_image
+      )
+    values (#{id,jdbcType=VARCHAR}, #{teachDetailId,jdbcType=VARCHAR}, #{classroom,jdbcType=VARCHAR},
+      #{attendanceNum,jdbcType=INTEGER}, #{totalNumber,jdbcType=INTEGER}, #{attendanceRate,jdbcType=DOUBLE}, 
+      #{recordTime,jdbcType=TIMESTAMP}, #{originalImage,jdbcType=VARCHAR}, #{detectionImage,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.weiyun.peoplecounting.pojo.Attendance">
+    update attendance
+    set teach_detail_id = #{teachDetailId,jdbcType=VARCHAR},
+      classroom = #{classroom,jdbcType=VARCHAR},
+      attendance_num = #{attendanceNum,jdbcType=INTEGER},
+      total_number = #{totalNumber,jdbcType=INTEGER},
+      attendance_rate = #{attendanceRate,jdbcType=DOUBLE},
+      record_time = #{recordTime,jdbcType=TIMESTAMP},
+      original_image = #{originalImage,jdbcType=VARCHAR},
+      detection_image = #{detectionImage,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, teach_detail_id, classroom, attendance_num, total_number, attendance_rate, record_time,
+    original_image, detection_image
+    from attendance
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, teach_detail_id, classroom, attendance_num, total_number, attendance_rate, record_time,
+    original_image, detection_image
+    from attendance
+  </select>
+
+  <select id="selectToday" resultMap="BaseResultMap">
+    select * from  attendance where teach_detail_id = #{teachDetailId} and to_days(record_time) = to_days(now()) limit 1;
+  </select>
+
+  <update id="updateAttendance" parameterType="com.weiyun.peoplecounting.pojo.Attendance">
+    update attendance
+    set teach_detail_id = #{teachDetailId,jdbcType=VARCHAR},
+      attendance_num = #{attendanceNum,jdbcType=INTEGER},
+      attendance_rate = #{attendanceRate,jdbcType=DOUBLE},
+      record_time = #{recordTime,jdbcType=TIMESTAMP},
+      original_image = #{originalImage,jdbcType=VARCHAR},
+      detection_image = #{detectionImage,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectChartData" resultType="java.util.HashMap">
+    select attendance.*,teach_detail.weekday,teach_detail.sequence from attendance,teach_detail
+    where teach_detail_id=teach_detail.id
+    and teacher_id = #{teacherId}
+    and course_id=#{courseId}
+    and class_num =#{classNum}
+    <!--and date_sub(curdate(), interval #{days} day) &lt;= record_time-->
+    limit #{num}
+  </select>
+  <select id="selectHistoryData" resultType="java.util.HashMap">
+      select attendance.*,course.course_name,teach_detail.weekday,teach_detail.sequence,teach_detail.class_num from attendance,teach_detail,course
+      where teach_detail_id = teach_detail.id
+      and course_id = course.id
+      and teacher_id = #{teacherId}
+      <if test="startTime!=null and endTime==null">
+          and DATE_FORMAT(record_time,'%Y-%m-%d') &gt;= #{startTime}
+      </if>
+      <if test="startTime!=null and endTime==null">
+      </if>
+      <if test="startTime==null and endTime!=null">
+          and DATE_FORMAT(record_time,'%Y-%m-%d') &lt;= #{endTime}
+      </if>
+      <if test="startTime!=null and endTime!=null">
+          and DATE_FORMAT(record_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+      </if>
+  </select>
+  <select id="selectSummaryData" resultType="java.util.HashMap">
+    select course_name,avg(attendance_rate) as average from course,teach_detail,attendance
+    where  course.id=teach_detail.course_id and teach_detail.id = attendance.teach_detail_id
+    group by course_name
+  </select>
+ </mapper>

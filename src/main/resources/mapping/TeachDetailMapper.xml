@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weiyun.peoplecounting.mapper.TeachDetailMapper">
+  <resultMap id="BaseResultMap" type="com.weiyun.peoplecounting.pojo.TeachDetail">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="course_id" jdbcType="INTEGER" property="courseId" />
+    <result column="teacher_id" jdbcType="VARCHAR" property="teacherId" />
+    <result column="total_number" jdbcType="INTEGER" property="totalNumber" />
+    <result column="weekday" jdbcType="VARCHAR" property="weekday" />
+    <result column="sequence" jdbcType="VARCHAR" property="sequence" />
+    <result column="class_num" jdbcType="VARCHAR" property="classNum" />
+    <result column="classroom" jdbcType="VARCHAR" property="classroom" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from teach_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.weiyun.peoplecounting.pojo.TeachDetail">
+    insert into teach_detail (id, course_id, teacher_id, 
+      total_number, weekday, sequence, 
+      class_num, classroom)
+    values (#{id,jdbcType=VARCHAR}, #{courseId,jdbcType=INTEGER}, #{teacherId,jdbcType=VARCHAR},
+      #{totalNumber,jdbcType=INTEGER}, #{weekday,jdbcType=VARCHAR}, #{sequence,jdbcType=VARCHAR}, 
+      #{classNum,jdbcType=VARCHAR}, #{classroom,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.weiyun.peoplecounting.pojo.TeachDetail">
+    update teach_detail
+    set course_id = #{courseId,jdbcType=INTEGER},
+      teacher_id = #{teacherId,jdbcType=VARCHAR},
+      total_number = #{totalNumber,jdbcType=INTEGER},
+      weekday = #{weekday,jdbcType=VARCHAR},
+      sequence = #{sequence,jdbcType=VARCHAR},
+      class_num = #{classNum,jdbcType=VARCHAR},
+      classroom = #{classroom,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, course_id, teacher_id, total_number, weekday, sequence, class_num, classroom
+    from teach_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, course_id, teacher_id, total_number, weekday, sequence, class_num, classroom
+    from teach_detail
+  </select>
+
+  <select id="selectToCheckExist" resultType="Integer">
+    select count(id) from teach_detail
+    where teacher_id = #{teacherId} and course_id = #{courseId} and weekday = #{weekday} and sequence = #{sequence} limit 1
+  </select>
+
+  <select id="seletByTeacherId" resultMap="BaseResultMap">
+    select * from teach_detail where teacher_id = #{teacherId}
+  </select>
+
+  <resultMap id="TeachDetailVOMap" type="com.weiyun.peoplecounting.pojo.TeachDetailVO">
+    <id column="id" jdbcType="VARCHAR" property="id"/>
+    <result column="total_number"  property="totalNumber"/>
+    <result column="weekday" property="weekday"/>
+    <result column="sequence" property="sequence"/>
+    <result column="class_num" property="classNum"/>
+    <result column="classroom" property="classroom"/>
+    <association property="course" javaType="com.weiyun.peoplecounting.pojo.Course">
+      <id column="cid"  jdbcType="INTEGER" property="id"/>
+      <result column="course_name" property="courseName"/>
+      <result column="credits" property="credits"/>
+      <result column="period" property="period"/>
+      <result column="exam_ways" property="examWays"/>
+    </association>
+  </resultMap>
+
+  <select id="selectTeachDetailVo" resultMap="TeachDetailVOMap">
+    select teach_detail.*,course.id as cid,course_name from teach_detail,course where teacher_id = #{teacherId} and teach_detail.course_id = course.id
+  </select>
+
+  <select id="selecetCourseList" resultType="java.util.HashMap">
+    select course_id,course_name,class_num from course,teach_detail
+    where teacher_id = #{teacherId} and course.id = course_id group by course_id,course_name,class_num
+  </select>
+
+</mapper>

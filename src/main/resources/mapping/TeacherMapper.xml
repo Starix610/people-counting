@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weiyun.peoplecounting.mapper.TeacherMapper">
+  <resultMap id="BaseResultMap" type="com.weiyun.peoplecounting.pojo.Teacher">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
+    <result column="gender" jdbcType="TINYINT" property="gender" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="college_id" jdbcType="INTEGER" property="collegeId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from teacher
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.weiyun.peoplecounting.pojo.Teacher">
+    insert into teacher (id, teacher_name, gender,
+      title, college_id)
+    values (#{id,jdbcType=VARCHAR}, #{teacherName,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT},
+      #{title,jdbcType=VARCHAR}, #{collegeId,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.weiyun.peoplecounting.pojo.Teacher">
+    update teacher
+    set teacher_name = #{teacherName,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=TINYINT},
+      title = #{title,jdbcType=VARCHAR},
+      college_id = #{collegeId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, teacher_name, gender, title, college_id
+    from teacher
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, teacher_name, gender, title, college_id
+    from teacher
+  </select>
+</mapper>

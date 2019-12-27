@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weiyun.peoplecounting.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.weiyun.peoplecounting.pojo.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="teacher_id" jdbcType="VARCHAR" property="teacherId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.weiyun.peoplecounting.pojo.User">
+    insert into user (id, username, password, 
+      telephone, email, teacher_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{telephone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{teacherId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.weiyun.peoplecounting.pojo.User">
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      teacher_id = #{teacherId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, username, password, telephone, email, teacher_id
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, username, password, telephone, email, teacher_id
+    from user
+  </select>
+
+  <select id="selectByTelephone" resultMap="BaseResultMap">
+    select * from user where telephone = #{telephone}
+  </select>
+
+  <select id="updateTeacherInfoByUserId">
+    update user set teacher_id = #{teacherId} where id = #{userId}
+  </select>
+
+  <select id="selectByTeacherId" resultMap="BaseResultMap">
+    select * from user where teacher_id = #{teacherId}
+  </select>
+</mapper>
