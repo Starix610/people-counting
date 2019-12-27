@@ -11,7 +11,7 @@
 
 ### 预览
 <div align="center">
-<img src="https://github.com/Starix610/people-counting/raw/master/readme_images/index.png" alt="image" width="300px"width="280px">
+<img src="https://github.com/Starix610/people-counting/raw/master/readme_images/index.png" alt="image" width="280px">
 <img src="https://github.com/Starix610/people-counting/raw/master/readme_images/history.png" alt="image" width="280px">
 <img src="https://github.com/Starix610/people-counting/raw/master/readme_images/me.png" alt="image" width="280px">
 <img src="https://github.com/Starix610/people-counting/raw/master/readme_images/index2.jpg" alt=" image"width="280px">
