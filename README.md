@@ -1,4 +1,4 @@
-# 基于计算机视觉的教师人数统计系统-后台接口
+# 基于计算机视觉的教室人数统计系统-后台接口
 
 ### 系统功能结构：
 ![image](https://github.com/Starix610/people-counting/blob/master/readme_images/pc-structure-chart.png)
